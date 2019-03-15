@@ -1,0 +1,27 @@
+<% flash.each do |key, value| %>
+	<%= content_tag :div, value, class: "flash #{key}" %>
+<% end %>
+<p>
+	<strong>Title:</strong>
+	<%= @bug.title %>
+</p>
+<p>
+	<strong>Deadline:</strong>
+
+</p>
+<p>
+	<strong>Type:</strong>
+
+</p>
+<p>
+	<strong>Status:</strong>
+
+</p>
+<p>
+	<strong>User:</strong>
+</p>
+<p>
+	<strong>Developer</strong>
+</p>
+<%= link_to "Edit" , edit_bug_path(@bug)
+<%= link_to "Back", Project_bugs_path(@bug.project_id) %>

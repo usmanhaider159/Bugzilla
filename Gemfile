@@ -5,6 +5,7 @@ ruby '2.6.1'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.2'
 # Use postgresql as the database for Active Record
+gem "paperclip", "~> 6.0.0"
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'pundit', '~> 2.0', '>= 2.0.1'
 gem 'devise'

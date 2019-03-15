@@ -14,21 +14,25 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
+  	@ids = @project.users.ids
+  	@canadd = User.where.not(user_type: "project_manager").where.not(id: @ids )
   end
 
   # GET /projects/new
   def new
     @project = Project.new
+    authorize @project
   end
 
   # GET /projects/1/edit
   def edit
+    authorize @project
   end
 
   # POST /projects
   # POST /projects.json
   def create
-    @project = current_user.projects.create!(project_params)
+    @project = current_user.projects.create(project_params)
     respond_to do |format|
       if @project.save
         format.html { redirect_to @project, notice: 'Project was successfully created.' }
@@ -44,6 +48,7 @@ class ProjectsController < ApplicationController
   # PATCH/PUT /projects/1.json
   def update
     respond_to do |format|
+      authorize @project
       if @project.update(project_params)
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { render :show, status: :ok, location: @project }
@@ -55,14 +60,16 @@ class ProjectsController < ApplicationController
   end
 
   def delete_member
-    @user= User.find_by(id:params[:userid])
     @project= Project.find_by(id:params[:projectid])
+    authorize @project
+    @user= User.find_by(id:params[:userid])
     @project.users.delete(@user)
     redirect_to @project
   end
 
   def add_member
       # @project = Project.find_by(id: params[:id])
+      authorize @project
       @ids = params[:project][:user_ids]
       @ids.reject!(&:blank?)
       @ids.each do |id|

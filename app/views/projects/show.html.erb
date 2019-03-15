@@ -1,34 +1,48 @@
-<p id="notice"><%= notice %></p>
-<p>
-  <strong>Title:</strong>
-  <%= @project.title %>
-</p>
-<table>
-	<thead>
-	    <tr>
-	      <th>Name</th>
-	      <th> Designation</th>
-	      <th colspan="3"></th>
-	    </tr>
-	</thead>
-	<tbody>
-	    <% @project.users.each do |user| %>
-	    <tr>
-	        <td><%= user.name%></td>
-	        <td><%= user.user_type %></td>
-	        <td><%= link_to 'delete member' , delete_member_path(@project.id,user),method: :delete , data: { confirm: 'Are you sure?' } %></td>
-	    </tr>
-	   <% end %>
-	</tbody>
-</table>
-<h1>
-	Add Users From List Below!
-</h1>
-<%= form_for @project, url: { action: "add_member"}, method: :post do |form| %>
-	<%= form.collection_select :user_ids, User.all.order(:name), :id, :name, {}, multiple: true %>
-	<div class="actions">
-	    <%= form.submit %>
-	</div>
+<%= render 'header' %>
+<% flash.each do |key, value| %>
+	<%= content_tag :div, value, class: "flash #{key}" %>
 <% end %>
-<%= link_to 'Edit', edit_project_path(@project) %> |
+<p>
+	<strong>Title:</strong>
+	<%= @project.title %>
+</p>
+<% if @project.users.any? %>
+	<h2>
+		Users
+	</h2>
+	<table>
+		<thead>
+		    <tr>
+			    <th>Name</th>
+			    <th> Designation</th>
+			    <th colspan="3"></th>
+		    </tr>
+		</thead>
+		<tbody>
+		    <% @project.users.each do |user| %>
+		    <tr>
+		        <td><%= user.name%></td>
+		        <td><%= user.user_type %></td>
+		        <td><%= link_to 'delete member' , delete_member_path(@project,user),method: :delete , data: { confirm: 'Are you sure?' }  if policy(@project).delete_member?%></td>
+		    </tr>
+		   <% end %>
+		</tbody>
+	</table>
+<% end %>
+<% if policy(@project).add_member? && @canadd.any? %>
+	<h1>
+		Add Users From List Below!
+	</h1>
+	<%= form_for @project, url: { action: "add_member"}, method: :post do |form| %>
+		<%= form.collection_select :user_ids, @canadd, :id, :name, {}, multiple: true%>
+		<div class="actions">
+		    <%= form.submit %>
+		</div>
+	<% end %>
+<% end %>
+<% if policy(@project).edit? %>
+	<%= link_to 'Edit', edit_project_path(@project)%> |
+<% end %>
+<%= link_to 'Bugs' , project_bugs_path(@project) %> |
+<%= link_to 'New Bug', new_project_bug_path(@project) %>
 <%= link_to 'Back', projects_path %>

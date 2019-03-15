@@ -1,0 +1,34 @@
+<% flash.each do |key, value| %>
+  <%= content_tag :div, value, class: "flash #{key}" %>
+<% end %>
+<%= form_with(model: bug, url: project_bugs_path , html: { multipart: true } , local: true) do |form| %>
+	<% if bug.errors.any? %>
+	  <div id="error_explanation">
+	      <h2><%= pluralize(bug.errors.count, "error") %> prohibited this project from being saved:</h2>
+			<ul>
+	      <% bug.errors.full_messages.each do |message| %>
+	        <li><%= message %></li>
+      	<% end %>
+      </ul>
+    </div>
+	<% end %>
+	<div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+  <div clas="field">
+  	<%= form.label :deadline %>
+  	<%= form.date_field :deadline , min: Date.today %>
+  </div>
+  <div>
+ 		<%= form.label :type %>
+   	<%= form.select :type , ['bug','feature'] %>
+  </div>
+  <br>
+ 	<%= form.file_field :avatar %>
+  <% form.hidden_field :status , value: "new" %>
+  <br>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

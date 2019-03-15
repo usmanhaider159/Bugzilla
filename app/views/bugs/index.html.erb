@@ -1,0 +1,24 @@
+<% if @bugs.any? %>
+	<h1>Bugs</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Deadline</th>
+			</tr>	
+		</thead>
+		<tbody>
+			<% @bugs.each do |bug| %>
+				<tr>
+					<td><%= bug.title%></td>
+					<td><%= bug.deadline%></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<% else %>
+	<h2>
+		No Bugs to show
+	</h2>
+	<%= link_to 'Back', @project%>
+<% end %>
