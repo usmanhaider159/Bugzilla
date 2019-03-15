@@ -25,11 +25,16 @@
    	<%= form.select :bugtype , ['bug','feature'] %>
   </div>
   <br>
-  <div>
-  	<%= form.label :Screenshot %>
-  	<%= form.file_field :avatar %>
-  </div>
- 	
+  <% if @bug.avatar.present? %>
+	  	<%= image_tag @bug.avatar.url(:medium) %>
+	  	<br>
+	  	<strong> Browse to Change</strong>
+  	<% else %>
+  		<%= form.label :Screenshot %>
+  <% end %>
+	<div>
+	  <%= form.file_field :avatar %>
+	</div>
   <%= form.hidden_field :status , value: "new" %>
   <%= form.hidden_field :user_id , value: current_user.id %>
   <br>

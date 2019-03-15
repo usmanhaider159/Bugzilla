@@ -15,7 +15,7 @@
 </p>
 <p>
 	<strong>Status:</strong>
-
+	<%= @bug.status %>
 </p>
 <p>
 	<strong>User:</strong>
@@ -32,5 +32,5 @@
 <p>
 	<%= image_tag @bug.avatar.url(:medium) %>
 </p>
-<%= link_to "Edit" , edit_bug_path(@bug) %>
-<%= link_to "Back", project_bugs_path(@bug.project_id) %>
+<%= link_to 'Edit' , edit_bug_path(@bug) %>
+<%= link_to 'Back', project_bugs_path(@bug.project_id) %>

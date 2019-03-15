@@ -1,3 +1,6 @@
+<% flash.each do |key, value| %>
+  <%= content_tag :div, value, class: "flash #{key}" %>
+<% end %>
 <% if @bugs.any? %>
 	<h1>Bugs</h1>
 	<table>
@@ -5,13 +8,17 @@
 			<tr>
 				<th>Title</th>
 				<th>Deadline</th>
-			</tr>	
+				<th colspan="3"></th>
+			</tr>
 		</thead>
 		<tbody>
 			<% @bugs.each do |bug| %>
 				<tr>
 					<td><%= bug.title%></td>
 					<td><%= bug.deadline%></td>
+					<td><%= link_to 'Show' , bug %></td>
+					<td><%= link_to 'Edit' , edit_bug_path(bug) %></td>
+					<td><%= link_to 'Destroy' , bug , method: :delete  , data: { confirm: 'Are you sure?' } %>	</td>
 				</tr>
 			<% end %>
 		</tbody>
@@ -20,5 +27,5 @@
 	<h2>
 		No Bugs to show
 	</h2>
-	<%= link_to 'Back', @project%>
 <% end %>
+<%= link_to 'Back', @project %>

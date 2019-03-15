@@ -26,18 +26,26 @@ class BugsController < ApplicationController
 	end
 
 	def show
-		@user = User.find(@bug.user_id)
+		@user = Creator(@bug)
 		if @bug.dev_id != nil
 		@developer = User.find(@bug.dev_id)
 		end
 	end
 
 	def update
-		
+		if @bug.update(bug_params)
+			flash[:sucess]= "sucessfuly updated!"
+			redirect_to @bug
+		else
+			flash[:alert]="not updated!"
+			render 'edit'
+		end
 	end
 
 	def destroy
-
+		@bug.destroy
+		flash[:sucess]= "sucessfuly deleted!"
+		redirect_to project_bugs_path(@bug.project_id)
 	end
 
 	private
@@ -52,5 +60,8 @@ class BugsController < ApplicationController
 	
 	def bug_params
 		params.require(:bug).permit(:title, :deadline , :bugtype , :status , :avatar , :user_id, :dev_id)
+	end
+	def Creator(bug)
+		bug.user
 	end
 end
