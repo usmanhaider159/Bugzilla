@@ -7,11 +7,11 @@
 </p>
 <p>
 	<strong>Deadline:</strong>
-
+	<%= @bug.deadline %>
 </p>
 <p>
 	<strong>Type:</strong>
-
+	<%= @bug.bugtype %>
 </p>
 <p>
 	<strong>Status:</strong>
@@ -19,9 +19,18 @@
 </p>
 <p>
 	<strong>User:</strong>
+	<%= @user.name %>
 </p>
 <p>
 	<strong>Developer</strong>
+	<% if @developer %>
+		<%= @developer.name %>
+	<% else %>
+		No developer added.
+	<% end %>
 </p>
-<%= link_to "Edit" , edit_bug_path(@bug)
-<%= link_to "Back", Project_bugs_path(@bug.project_id) %>
+<p>
+	<%= image_tag @bug.avatar.url(:medium) %>
+</p>
+<%= link_to "Edit" , edit_bug_path(@bug) %>
+<%= link_to "Back", project_bugs_path(@bug.project_id) %>

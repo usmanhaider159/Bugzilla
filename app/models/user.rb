@@ -6,8 +6,5 @@ class User < ApplicationRecord
   has_many :projects , through: :user_projects 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  # def Project_manager?
-  #       if current_user.user_type == "project_manager"?
-  #       end
-  #  end
+    
 end

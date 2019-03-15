@@ -1,7 +1,7 @@
 <% flash.each do |key, value| %>
   <%= content_tag :div, value, class: "flash #{key}" %>
 <% end %>
-<%= form_with(model: bug, url: project_bugs_path , html: { multipart: true } , local: true) do |form| %>
+<%= form_with(model: bug, url: url , html: { multipart: true } , local: true) do |form| %>
 	<% if bug.errors.any? %>
 	  <div id="error_explanation">
 	      <h2><%= pluralize(bug.errors.count, "error") %> prohibited this project from being saved:</h2>
@@ -22,11 +22,16 @@
   </div>
   <div>
  		<%= form.label :type %>
-   	<%= form.select :type , ['bug','feature'] %>
+   	<%= form.select :bugtype , ['bug','feature'] %>
   </div>
   <br>
- 	<%= form.file_field :avatar %>
-  <% form.hidden_field :status , value: "new" %>
+  <div>
+  	<%= form.label :Screenshot %>
+  	<%= form.file_field :avatar %>
+  </div>
+ 	
+  <%= form.hidden_field :status , value: "new" %>
+  <%= form.hidden_field :user_id , value: current_user.id %>
   <br>
   <div class="actions">
     <%= form.submit %>

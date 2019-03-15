@@ -6,14 +6,16 @@ class BugsController < ApplicationController
 	end
 
 	def create
-		@bug= @project.bugs.create(bug_params)
-		if @bug.save
-			format.html { redirect_to @bug, notice: 'Bug was successfully created.' }
-      format.json { render :show, status: :created, location: @bug }
-		else
-        format.html { render :new }
-        format.json { render json: @bug.errors, status: :unprocessable_entity }
-    end
+		@bug= @project.bugs.create!(bug_params)
+		respond_to do |format|
+			if @bug.save
+				format.html { redirect_to @bug, notice: 'Bug was successfully created.' }
+	      format.json { render :show, status: :created, location: @bug }
+			else
+		    format.html { render :new }
+		    format.json { render json: @bug.errors, status: :unprocessable_entity }
+	    end
+  	end
 	end
 
 	def new	
@@ -24,6 +26,10 @@ class BugsController < ApplicationController
 	end
 
 	def show
+		@user = User.find(@bug.user_id)
+		if @bug.dev_id != nil
+		@developer = User.find(@bug.dev_id)
+		end
 	end
 
 	def update
@@ -45,6 +51,6 @@ class BugsController < ApplicationController
 	end
 	
 	def bug_params
-		params.require(:bug).permit(:title, :deadline , :type , :status)
+		params.require(:bug).permit(:title, :deadline , :bugtype , :status , :avatar , :user_id, :dev_id)
 	end
 end
